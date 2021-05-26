@@ -1,0 +1,5 @@
+# Deafault ignore for IDEA files
+.idea
+*.iws
+*.iml
+*.ipx
