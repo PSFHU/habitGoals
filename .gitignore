@@ -3,3 +3,6 @@
 *.iws
 *.iml
 *.ipx
+# Ignore Dia autosave
+*.autosave
+*.dia~
