@@ -76,6 +76,16 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.3.1</version>
             </plugin>
+            <!-- To Deploy on wildfly-->
+            <plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <version>2.1.0.Beta1</version>
+                <configuration>
+                    <hostname>localhost</hostname>
+                    <port>10090</port>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
