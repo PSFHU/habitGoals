@@ -1,5 +1,6 @@
 package hu.mik.prog4.habbitgoals.entity.goal;
 
+import hu.mik.prog4.habbitgoals.entity.measure.MeasureValue;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -12,4 +13,5 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 public class MainGoal extends Goal{
+    private List<SideGoal> sideGoals;
 }
