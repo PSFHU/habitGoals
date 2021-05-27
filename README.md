@@ -9,7 +9,7 @@
 ## Services
 ![Goal](plan/ServiceClasses.png)
 
-#Install instructions
+# Install instructions
 
 ## Postgres
 To run the project, you will need to have PostgreSQL version 12.4 installed.
@@ -25,7 +25,7 @@ Under `/db` run the following scripts in order:
 If you want to test, data continue with:
 3. `insert_dummy_data.sql`
 
-##PostgreSQL JDBC Driver as Jboss Module
+## PostgreSQL JDBC Driver as Jboss Module
 
 1. Download the appropriate PostgreSQL JDBC driver (e.g. 42.2.20)
 2. `mkdir -p $WILDFLY_HOME/modules/org/postgresql/main`
@@ -41,7 +41,7 @@ If you want to test, data continue with:
 </module>" >> $WILDFLY_HOME/modules/org/postgresql/main/module.xml`
 4. `cp ~/Downloads/postgresql-42.2.20.jar $WILDFLY_HOME/modules/org/postgresql/main/`
 
-##WildFly Configuration
+## WildFly Configuration
 You will need to have the following in the WildFly datasources subsystem (
 in `$WILDFLY_HOME/standalone/configuration/standalone.xml`)
 
