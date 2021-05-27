@@ -1,0 +1,57 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: PSFHU_KOL
+  Date: 2021. 05. 27.
+  Time: 20:29
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
+<html>
+<head>
+    <title>Dashboard</title>
+</head>
+<t:page>
+    <table id="goals">
+        <thead>
+        <tr>
+            <td <c:if test="mainGoalCompleted">style="background-color: green" </c:if>>  <c:out value="${mainGoal.getTitle()}"/></td>
+        </tr>
+        </thead>
+        <tbody>
+            <c:forEach items="${sideGoals}" var="sideGoal">
+                <tr>
+                    <td><c:out value="${sideGoal.title}"/></td>
+                    <td><c:out value="${sideGoal.goalValue}"/></td>
+                </tr>
+            </c:forEach>
+            <tr>
+                <td><a href="${pageContext.request.contextPath}/addGoal">Add</a></td>
+            </tr>
+        </tbody>
+    </table>
+    <div id="values">
+    <c:forEach items="${measureFields}" var="measureField">
+        <table>
+            <thead>
+            <tr>
+                <td><c:out value="${measureField.title}"/></td>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${measureField.measureValues}" var="measureValue">
+                <tr>
+                    <td><c:out value="${measureValue.timeStamp}"/></td>
+                    <td><c:out value="${measureValue.value}"/></td>
+                </tr>
+            </c:forEach>
+            <tr>
+                <td><a href="${pageContext.request.contextPath}/addMeasure">Add</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </c:forEach>
+    </div>
+</t:page>
+</html>
