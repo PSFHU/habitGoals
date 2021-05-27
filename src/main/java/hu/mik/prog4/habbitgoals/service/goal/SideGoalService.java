@@ -4,6 +4,7 @@ import hu.mik.prog4.habbitgoals.entity.goal.SideGoal;
 import hu.mik.prog4.habbitgoals.entity.measure.MeasureValue;
 import hu.mik.prog4.habbitgoals.repository.goal.SideGoalRepository;
 import hu.mik.prog4.habbitgoals.repository.measure.MeasureValueRepository;
+import hu.mik.prog4.habbitgoals.service.measure.MeasureValueService;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,11 +12,11 @@ import java.util.Optional;
 public class SideGoalService implements GoalService<SideGoal>{
 
     private final SideGoalRepository sideGoalRepository;
-    private final MeasureValueRepository measureValueRepository;
+    private final MeasureValueService measureValueService;
 
     public SideGoalService() {
         this.sideGoalRepository = new SideGoalRepository();
-        measureValueRepository = new MeasureValueRepository();
+        measureValueService = new MeasureValueService();
     }
 
     @Override
@@ -50,7 +51,7 @@ public class SideGoalService implements GoalService<SideGoal>{
     @Override
     public boolean isCompleted(Long id) {
         SideGoal byId = sideGoalRepository.findById(id);
-        return measureValueRepository.listAllOnMeasureFieldId(byId.getMeasureFieldId())
+        return measureValueService.listAllOnMeasureFieldId(byId.getMeasureFieldId())
                 .stream()
                 .map(MeasureValue::getValue)
                 .max(Double::compareTo)
