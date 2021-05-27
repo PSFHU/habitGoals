@@ -8,6 +8,7 @@ import hu.mik.prog4.habbitgoals.service.measure.MeasureValueService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class SideGoalService implements GoalService<SideGoal>{
 
@@ -22,10 +23,6 @@ public class SideGoalService implements GoalService<SideGoal>{
     @Override
     public List<SideGoal> listAll() {
         return sideGoalRepository.listAll();
-    }
-
-    public List<SideGoal> listAllMainGoalId(Long id){
-        return sideGoalRepository.listAllMainGoalId(id);
     }
 
     @Override
@@ -51,8 +48,10 @@ public class SideGoalService implements GoalService<SideGoal>{
     @Override
     public boolean isCompleted(Long id) {
         SideGoal byId = sideGoalRepository.findById(id);
-        return measureValueService.listAllOnMeasureFieldId(byId.getMeasureFieldId())
+        return measureValueService.listAll()
                 .stream()
+                .filter(measureValue -> measureValue.getMeasureFieldId().equals(byId.getMeasureFieldId()))
+                .collect(Collectors.toList()).stream()
                 .map(MeasureValue::getValue)
                 .max(Double::compareTo)
                 .filter(aDouble -> aDouble <= byId.getGoalValue())

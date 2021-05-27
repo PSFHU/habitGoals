@@ -94,6 +94,6 @@ public class EditGoalServlet extends HttpServlet {
             throw new GoalTypeException("Invalid Goal Type!");
         }
         req.setAttribute("successfulEdit", true);
-        req.getRequestDispatcher("/goalList.jsp").forward(req, resp);
+        req.getRequestDispatcher("/listGoals.jsp").forward(req, resp);
     }
 }

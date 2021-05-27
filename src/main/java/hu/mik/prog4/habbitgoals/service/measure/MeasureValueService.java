@@ -18,15 +18,6 @@ public class MeasureValueService implements MeasureService<MeasureValue> {
         return measureValueRepository.listAll();
     }
 
-    public List<MeasureValue> listAllOnMeasureFieldId(Long id){
-        return measureValueRepository.listAllOnMeasureFieldId(id);
-    }
-
-    public double getAvgOnMeasureFieldId(Long id){
-        List<MeasureValue> measureValues = measureValueRepository.listAllOnMeasureFieldId(id);
-        return measureValues.stream().mapToDouble(MeasureValue::getValue).sum() / (long) measureValues.size();
-    }
-
     @Override
     public MeasureValue findById(Long id) {
         return measureValueRepository.findById(id);

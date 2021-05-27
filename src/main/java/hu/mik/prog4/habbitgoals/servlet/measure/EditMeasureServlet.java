@@ -86,6 +86,6 @@ public class EditMeasureServlet extends HttpServlet {
         }
         req.setAttribute("successfulEdit", true);
         // TODO implement forward after actions
-        req.getRequestDispatcher("/measureList.jsp").forward(req, resp);
+        req.getRequestDispatcher("/listMeasures.jsp").forward(req, resp);
     }
 }

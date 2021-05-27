@@ -2,6 +2,7 @@ package hu.mik.prog4.habbitgoals.servlet.measure;
 
 import hu.mik.prog4.habbitgoals.entity.goal.Goal;
 import hu.mik.prog4.habbitgoals.entity.measure.Measure;
+import hu.mik.prog4.habbitgoals.entity.measure.MeasureField;
 import hu.mik.prog4.habbitgoals.service.goal.MainGoalService;
 import hu.mik.prog4.habbitgoals.service.goal.SideGoalService;
 import hu.mik.prog4.habbitgoals.service.measure.MeasureFieldService;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MeasureListServlet extends HttpServlet {
     private MeasureValueService measureValueService;
@@ -29,12 +31,13 @@ public class MeasureListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        List<Measure> measures = new ArrayList<>();
-        measures.addAll(this.measureValueService.listAll());
-        measures.addAll(this.measureFieldService.listAll());
+        List<MeasureField> measureFields = this.measureFieldService.listAll();
+        measureFields.forEach(measureField -> measureField.setMeasureValues(measureValueService.listAll()
+                .stream()
+                .filter(measureValue -> measureValue.getMeasureFieldId().equals(measureField.getId()))
+                .collect(Collectors.toList())));
 
-        req.setAttribute("measures", measures);
-        // TODO implement forward after actions
-        req.getRequestDispatcher("/measureList.jsp").forward(req, resp);
+        req.setAttribute("measureFields", measureFields);
+        req.getRequestDispatcher("/listMeasures.jsp").forward(req, resp);
     }
 }

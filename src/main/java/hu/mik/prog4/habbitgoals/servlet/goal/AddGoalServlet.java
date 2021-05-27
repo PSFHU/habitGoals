@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,21 +38,21 @@ public class AddGoalServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
         List<MainGoal> mainGoals = new ArrayList<>(mainGoalService.listAll());
         List<MeasureField> measureFields = new ArrayList<>(measureFieldService.listAll());
         req.setAttribute("measureFields",measureFields);
         req.setAttribute("mainGoals", mainGoals);
-        req.getRequestDispatcher("/goalAdd.jsp").forward(req, resp);
+        req.getRequestDispatcher("/addGoal.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
         String goalType = req.getParameter("goalType");
-        String name = req.getParameter("name");
-        String address = req.getParameter("address");
+        String title = req.getParameter("title");
 
         if (MAINGOAL.equals(goalType)) {
-            String title = req.getParameter("title");
             MainGoal mainGoal = new MainGoal();
             mainGoal.setTitle(title);
 
@@ -62,7 +63,6 @@ public class AddGoalServlet extends HttpServlet {
             Long mainGoalId = Long.valueOf(req.getParameter("mainGoalId"));
             Long measureFieldId = Long.valueOf(req.getParameter("measureFieldId"));
             Double goalValue = Double.valueOf(req.getParameter("goalValue"));
-            String title = req.getParameter("title");
 
             SideGoal sideGoal = new SideGoal();
             sideGoal.setMainGoalId(mainGoalId);
@@ -78,8 +78,7 @@ public class AddGoalServlet extends HttpServlet {
             throw new GoalTypeException("Invalid Goal Type!");
         }
         req.setAttribute("successfulAdd", true);
-        // TODO implement forward after actions
-        req.getRequestDispatcher("/goalList.jsp").forward(req, resp);
+        resp.sendRedirect(PageContext.PAGECONTEXT+ "/listGoals");
     }
 
 }

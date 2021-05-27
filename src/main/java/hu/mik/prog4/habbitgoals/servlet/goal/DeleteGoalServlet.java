@@ -41,6 +41,6 @@ public class DeleteGoalServlet extends HttpServlet {
             throw new GoalTypeException("Invalid Goal Type!");
         }
         req.setAttribute("successfulDelete", true);
-        req.getRequestDispatcher("/goalList.jsp").forward(req, resp);
+        req.getRequestDispatcher("/listGoals.jsp").forward(req, resp);
     }
 }

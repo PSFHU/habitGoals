@@ -44,8 +44,7 @@ public class MainGoalService implements GoalService<MainGoal> {
 
     @Override
     public boolean isCompleted(Long id) {
-        return sideGoalService.listAllMainGoalId(id)
-                .stream()
+        return sideGoalService.listAll().stream().filter(sideGoal -> sideGoal.getMainGoalId().equals(id))
                 .allMatch(sideGoal -> sideGoalService.isCompleted(sideGoal.getId()))
                 ;
     }

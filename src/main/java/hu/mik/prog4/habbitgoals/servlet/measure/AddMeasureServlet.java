@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -35,8 +36,9 @@ public class AddMeasureServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<MeasureField> measureFields = new ArrayList<>(measureFieldService.listAll());
+        req.getAttribute("measureFieldId");
         req.setAttribute("measureFields",measureFields);
-        req.getRequestDispatcher("/measureAdd.jsp").forward(req, resp);
+        req.getRequestDispatcher("/addMeasure.jsp").forward(req, resp);
     }
 
     @Override
@@ -54,7 +56,7 @@ public class AddMeasureServlet extends HttpServlet {
         } else if (VALUE.equals(measureType)) {
             Long measureFieldId = Long.valueOf(req.getParameter("measureFieldId"));
             Double value = Double.valueOf(req.getParameter("measureValue"));
-            Date timeStamp = Date.valueOf(req.getParameter("Date"));
+            Date timeStamp = Date.valueOf(req.getParameter("date"));
 
             MeasureValue measureValue = new MeasureValue();
             measureValue.setValue(value);
@@ -69,8 +71,7 @@ public class AddMeasureServlet extends HttpServlet {
             throw new MeasureTypeException("Invalid Measure Type!");
         }
         req.setAttribute("successfulAdd", true);
-        // TODO implement forward after actions
-        req.getRequestDispatcher("/measureList.jsp").forward(req, resp);
+        resp.sendRedirect(PageContext.PAGECONTEXT+ "/listMeasures");
     }
 
 }

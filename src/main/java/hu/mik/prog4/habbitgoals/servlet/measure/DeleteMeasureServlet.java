@@ -38,6 +38,6 @@ public class DeleteMeasureServlet extends HttpServlet {
             throw new MeasureTypeException("Invalid Measure Type!");
         }
         req.setAttribute("successfulDelete", true);
-        req.getRequestDispatcher("/measureList.jsp").forward(req, resp);
+        req.getRequestDispatcher("/listMeasures.jsp").forward(req, resp);
     }
 }
