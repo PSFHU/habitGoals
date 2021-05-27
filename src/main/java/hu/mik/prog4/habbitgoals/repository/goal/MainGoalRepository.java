@@ -59,9 +59,8 @@ public class MainGoalRepository extends Repository implements RepositoryInterfac
             stmt.setString(1,mainGoal.getTitle());
 
             stmt.executeUpdate();
-            ResultSet generatedKeys = stmt.getGeneratedKeys();
-            generatedKeys.next();
-            return this.findById(generatedKeys.getLong(1));
+
+            return mainGoal;
         } catch (NamingException e) {
             log.error("Data naming error: " + e.getMessage(), e);
             throw new DataNamingException();
@@ -79,9 +78,7 @@ public class MainGoalRepository extends Repository implements RepositoryInterfac
             stmt.setLong(2,mainGoal.getId());
 
             stmt.executeUpdate();
-            ResultSet generatedKeys = stmt.getGeneratedKeys();
-            generatedKeys.next();
-            return this.findById(generatedKeys.getLong(1));
+            return mainGoal;
         } catch (NamingException e) {
             log.error("Data naming error: " + e.getMessage(), e);
             throw new DataNamingException();

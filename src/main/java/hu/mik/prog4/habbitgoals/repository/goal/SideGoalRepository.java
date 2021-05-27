@@ -34,16 +34,15 @@ public class SideGoalRepository extends Repository implements RepositoryInterfac
         }
     }
 
-    public List<SideGoal> listAllMainGoalId(Long id){
+    @Override
+    public SideGoal findById(Long id) {
         try (Connection con = this.getConnection();
-             PreparedStatement stmt = con.prepareStatement("SELECT id, main_goal_id, measure_field_id, title, goal_value FROM side_goal WHERE main_goal_id = ?")) {
+             PreparedStatement stmt = con.prepareStatement("SELECT id, main_goal_id, measure_field_id, title, goal_value FROM side_goal WHERE id = ?")) {
             stmt.setLong(1, id);
             ResultSet rs = stmt.executeQuery();
-            List<SideGoal> list = new ArrayList<>();
-            while (rs.next()) {
-                list.add(this.mapSideGoal(rs));
-            }
-            return list;
+
+            rs.next();
+            return this.mapSideGoal(rs);
         } catch (NamingException e) {
             log.error("Data naming error: " + e.getMessage(), e);
             throw new DataNamingException();
@@ -51,11 +50,6 @@ public class SideGoalRepository extends Repository implements RepositoryInterfac
             log.error("Data access error: " + e.getMessage(),e);
             throw new DataAccessException();
         }
-    }
-
-    @Override
-    public SideGoal findById(Long id) {
-        return null;
     }
 
     @Override
@@ -68,9 +62,7 @@ public class SideGoalRepository extends Repository implements RepositoryInterfac
             stmt.setDouble(4,sideGoal.getGoalValue());
 
             stmt.executeUpdate();
-            ResultSet generatedKeys = stmt.getGeneratedKeys();
-            generatedKeys.next();
-            return this.findById(generatedKeys.getLong(1));
+            return sideGoal;
         } catch (NamingException e) {
             log.error("Data naming error: " + e.getMessage(), e);
             throw new DataNamingException();
@@ -91,9 +83,7 @@ public class SideGoalRepository extends Repository implements RepositoryInterfac
             stmt.setLong(5,sideGoal.getId());
 
             stmt.executeUpdate();
-            ResultSet generatedKeys = stmt.getGeneratedKeys();
-            generatedKeys.next();
-            return this.findById(generatedKeys.getLong(1));
+            return sideGoal;
         } catch (NamingException e) {
             log.error("Data naming error: " + e.getMessage(), e);
             throw new DataNamingException();
@@ -127,7 +117,7 @@ public class SideGoalRepository extends Repository implements RepositoryInterfac
         sideGoal.setMainGoalId(rs.getLong("main_goal_id"));
         sideGoal.setMeasureFieldId(rs.getLong("measure_field_id"));
         sideGoal.setTitle(rs.getString("title"));
-        sideGoal.setGoalValue(rs.getDouble("value"));
+        sideGoal.setGoalValue(rs.getDouble("goal_value"));
         return sideGoal;
     }
 }

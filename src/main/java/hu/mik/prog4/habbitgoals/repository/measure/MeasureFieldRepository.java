@@ -59,9 +59,7 @@ public class MeasureFieldRepository extends Repository implements RepositoryInte
             stmt.setString(1,measureField.getTitle());
 
             stmt.executeUpdate();
-            ResultSet generatedKeys = stmt.getGeneratedKeys();
-            generatedKeys.next();
-            return this.findById(generatedKeys.getLong(1));
+            return measureField;
         } catch (NamingException e) {
             log.error("Data naming error: " + e.getMessage(), e);
             throw new DataNamingException();
@@ -78,9 +76,7 @@ public class MeasureFieldRepository extends Repository implements RepositoryInte
             stmt.setString(1,measureField.getTitle());
 
             stmt.executeUpdate();
-            ResultSet generatedKeys = stmt.getGeneratedKeys();
-            generatedKeys.next();
-            return this.findById(generatedKeys.getLong(1));
+            return measureField;
         } catch (NamingException e) {
             log.error("Data naming error: " + e.getMessage(), e);
             throw new DataNamingException();

@@ -34,26 +34,6 @@ public class MeasureValueRepository extends Repository implements RepositoryInte
         }
     }
 
-    public List<MeasureValue> listAllOnMeasureFieldId(Long id){
-        try (Connection con = this.getConnection();
-             PreparedStatement stmt = con.prepareStatement("SELECT id, measure_field_id, value, time_stamp FROM measure_value WHERE measure_field_id = ?")) {
-            stmt.setLong(1, id);
-            ResultSet rs = stmt.executeQuery();
-            List<MeasureValue> list = new ArrayList<>();
-            while (rs.next()) {
-                list.add(this.mapMeasureValue(rs));
-            }
-            return list;
-
-        } catch (NamingException e) {
-            log.error("Data naming error: " + e.getMessage(), e);
-            throw new DataNamingException();
-        } catch (SQLException e) {
-            log.error("Data access error: " + e.getMessage(),e);
-            throw new DataAccessException();
-        }
-    }
-
     @Override
     public MeasureValue findById(Long id) {
         try (Connection con = this.getConnection();
@@ -81,9 +61,7 @@ public class MeasureValueRepository extends Repository implements RepositoryInte
             stmt.setDate(3, measureValue.getTimeStamp());
 
             stmt.executeUpdate();
-            ResultSet generatedKeys = stmt.getGeneratedKeys();
-            generatedKeys.next();
-            return this.findById(generatedKeys.getLong(1));
+            return measureValue;
         } catch (NamingException e) {
             log.error("Data naming error: " + e.getMessage(), e);
             throw new DataNamingException();
@@ -102,9 +80,7 @@ public class MeasureValueRepository extends Repository implements RepositoryInte
             stmt.setLong(3,measureValue.getId());
 
             stmt.executeUpdate();
-            ResultSet generatedKeys = stmt.getGeneratedKeys();
-            generatedKeys.next();
-            return this.findById(generatedKeys.getLong(1));
+            return measureValue;
         } catch (NamingException e) {
             log.error("Data naming error: " + e.getMessage(), e);
             throw new DataNamingException();
