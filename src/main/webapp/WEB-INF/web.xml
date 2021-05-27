@@ -5,4 +5,89 @@
           http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          version="3.0">
 
+    <!--  Servlets  -->
+    <servlet>
+        <servlet-name>DashboardServlet</servlet-name>
+        <servlet-class>hu.mik.prog4.habbitgoals.servlet.DashboardServlet</servlet-class>
+    </servlet>
+
+    <!--  Goal  -->
+    <servlet>
+        <servlet-name>AddGoalServlet</servlet-name>
+        <servlet-class>hu.mik.prog4.habbitgoals.servlet.goal.AddGoalServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteGoalServlet</servlet-name>
+        <servlet-class>hu.mik.prog4.habbitgoals.servlet.goal.DeleteGoalServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditGoalServlet</servlet-name>
+        <servlet-class>hu.mik.prog4.habbitgoals.servlet.goal.EditGoalServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ListGoalServlet</servlet-name>
+        <servlet-class>hu.mik.prog4.habbitgoals.servlet.goal.GoalListServlet</servlet-class>
+    </servlet>
+    
+    <!--  Measure  -->
+    
+    <servlet>
+        <servlet-name>AddMeasureServlet</servlet-name>
+        <servlet-class>hu.mik.prog4.habbitgoals.servlet.measure.AddMeasureServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteMeasureServlet</servlet-name>
+        <servlet-class>hu.mik.prog4.habbitgoals.servlet.measure.DeleteMeasureServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditMeasureServlet</servlet-name>
+        <servlet-class>hu.mik.prog4.habbitgoals.servlet.measure.EditMeasureServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ListMeasureServlet</servlet-name>
+        <servlet-class>hu.mik.prog4.habbitgoals.servlet.measure.MeasureListServlet</servlet-class>
+    </servlet>
+    
+    <!--  Servlet Mappings  -->
+    <servlet-mapping>
+        <servlet-name>DashboardServlet</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+    <!--  Goal  -->
+
+    <servlet-mapping>
+        <servlet-name>AddGoalServlet</servlet-name>
+        <url-pattern>/addGoal</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteGoalServlet</servlet-name>
+        <url-pattern>/deleteGoal</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditGoalServlet</servlet-name>
+        <url-pattern>/editGoal</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListGoalServlet</servlet-name>
+        <url-pattern>/listGoals</url-pattern>
+    </servlet-mapping>
+
+    <!--  Measure  -->
+    <servlet-mapping>
+        <servlet-name>AddMeasureServlet</servlet-name>
+        <url-pattern>/addMeasure</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteMeasureServlet</servlet-name>
+        <url-pattern>/deleteMeasure</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditMeasureServlet</servlet-name>
+        <url-pattern>/editMeasure</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListMeasureServlet</servlet-name>
+        <url-pattern>/listMeasures</url-pattern>
+    </servlet-mapping>
 </web-app>
