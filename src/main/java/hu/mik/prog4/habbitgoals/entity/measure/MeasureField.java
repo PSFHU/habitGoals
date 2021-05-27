@@ -13,4 +13,5 @@ import java.util.List;
 @NoArgsConstructor
 public class MeasureField extends Measure{
     private String title;
+    private List<MeasureValue> measureValues;
 }
