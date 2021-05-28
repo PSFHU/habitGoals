@@ -1,28 +1,15 @@
 package hu.mik.prog4.habbitgoals.repository;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
-import javax.xml.crypto.Data;
-import java.sql.Connection;
-import java.sql.SQLException;
+import java.util.List;
 
-public abstract class Repository {
+public interface Repository<T> {
+    List<T> listAll();
 
-    private static final String JNDI_DATASOURCE_NAME = "java:/HabitDS";
+    T findById(Long id);
 
-    private static DataSource dataSource;
+    T add(T goal);
 
-    protected Connection getConnection() throws NamingException, SQLException {
-        return getDataSource().getConnection();
-    }
+    T update(T goal);
 
-    private static DataSource getDataSource() throws NamingException {
-        if (dataSource == null){
-            Context initCtx = new InitialContext();
-            dataSource = (DataSource) initCtx.lookup(JNDI_DATASOURCE_NAME);
-        }
-        return dataSource;
-    }
+    boolean deleteById(Long id);
 }
