@@ -46,26 +46,32 @@ public class DashboardServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
 
         List<MainGoal> mainGoals = this.mainGoalService.listAll();
-        MainGoal mainGoal = mainGoals.get(new Random().ints(0, mainGoals.size())
-                .findFirst()
-                .getAsInt());
-        List<SideGoal> sideGoals = this.sideGoalService.listAll().stream().filter(sideGoal -> sideGoal.getMainGoalId().equals(mainGoal.getId())).collect(Collectors.toList());
+        if(!mainGoals.isEmpty()){
+            MainGoal mainGoal = mainGoals.get(new Random().ints(0, mainGoals.size())
+                    .findFirst()
+                    .getAsInt());
+            List<SideGoal> sideGoals = this.sideGoalService.listAll().stream().filter(sideGoal -> sideGoal.getMainGoalId().equals(mainGoal.getId())).collect(Collectors.toList());
+            sideGoals.forEach(sideGoal -> sideGoal.setIsCompleted(sideGoalService.isCompleted(sideGoal.getId())));
 
-        List<Long> measureFieldsIds = sideGoals.stream()
-                .map(SideGoal::getMeasureFieldId)
-                .distinct().collect(Collectors.toList());
+            List<Long> measureFieldsIds = sideGoals.stream()
+                    .map(SideGoal::getMeasureFieldId)
+                    .distinct().collect(Collectors.toList());
 
-        List<MeasureField> measureFields = measureFieldsIds.stream().map(aLong -> measureFieldService.findById(aLong)).collect(Collectors.toList());
-        measureFields.forEach(measureField -> measureField.setMeasureValues(measureValueService.listAll()
-                        .stream()
-                        .filter(measureValue -> measureValue.getMeasureFieldId().equals(measureField.getId()))
-                        .collect(Collectors.toList())));
+            List<MeasureField> measureFields = measureFieldsIds.stream().map(aLong -> measureFieldService.findById(aLong)).collect(Collectors.toList());
+            measureFields.forEach(measureField -> measureField.setMeasureValues(measureValueService.listAll()
+                    .stream()
+                    .filter(measureValue -> measureValue.getMeasureFieldId().equals(measureField.getId()))
+                    .collect(Collectors.toList())));
 
 //        Giving back Values to JSP
-        req.setAttribute("mainGoalCompleted",mainGoalService.isCompleted(mainGoal.getId()));
-        req.setAttribute("measureFields",measureFields);
-        req.setAttribute("sideGoals", sideGoals);
-        req.setAttribute("mainGoal", mainGoal);
+            req.setAttribute("mainGoalCompleted",mainGoalService.isCompleted(mainGoal.getId()));
+            req.setAttribute("measureFields",measureFields);
+            req.setAttribute("sideGoals", sideGoals);
+            req.setAttribute("mainGoal", mainGoal);
+            req.setAttribute("nodata",false);
+        }else{
+            req.setAttribute("nodata",true);
+        }
 
         req.getRequestDispatcher("/dashboard.jsp").forward(req, resp);
     }

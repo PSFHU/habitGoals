@@ -24,7 +24,7 @@
                 <tbody>
                 <c:forEach items="${measureField.measureValues}" var="measureValue">
                     <tr>
-                        <td><c:out value="${measureValue.timeStamp}"/></td>
+                        <td><c:out value="${measureValue.date}"/></td>
                         <td><c:out value="${measureValue.value}"/></td>
                     </tr>
                 </c:forEach>

@@ -13,23 +13,14 @@
     <title>Dashboard</title>
 </head>
 <t:page>
+    <c:if test="${!nodata}">
     <table id="goals">
         <thead>
-        <tr>
-            <td <c:if test="mainGoalCompleted">style="background-color: green" </c:if>>  <c:out value="${mainGoal.getTitle()}"/></td>
+        <tr <c:if test="${mainGoalCompleted}">style="background-color: green" </c:if>>
+            <td>  <c:out value="${mainGoal.getTitle()}"/></td>
         </tr>
         </thead>
-        <tbody>
-            <c:forEach items="${sideGoals}" var="sideGoal">
-                <tr>
-                    <td><c:out value="${sideGoal.title}"/></td>
-                    <td><c:out value="${sideGoal.goalValue}"/></td>
-                </tr>
-            </c:forEach>
-            <tr>
-                <td><a href="${pageContext.request.contextPath}/addGoal">Add</a></td>
-            </tr>
-        </tbody>
+        <t:sideGoalList/>
     </table>
     <div id="values">
     <c:forEach items="${measureFields}" var="measureField">
@@ -42,7 +33,7 @@
             <tbody>
             <c:forEach items="${measureField.measureValues}" var="measureValue">
                 <tr>
-                    <td><c:out value="${measureValue.timeStamp}"/></td>
+                    <td><c:out value="${measureValue.date}"/></td>
                     <td><c:out value="${measureValue.value}"/></td>
                 </tr>
             </c:forEach>
@@ -53,5 +44,10 @@
         </table>
     </c:forEach>
     </div>
+    </c:if>
+    <c:if test="${nodata}">
+        <h1>Sorry theres no data at the moment!</h1>
+        <h2>Go to the Goals or Measures to add data.</h2>
+    </c:if>
 </t:page>
 </html>
