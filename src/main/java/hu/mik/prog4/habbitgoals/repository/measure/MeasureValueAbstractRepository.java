@@ -1,10 +1,10 @@
-package hu.mik.prog4.habbitgoals.repository.goal;
+package hu.mik.prog4.habbitgoals.repository.measure;
 
-import hu.mik.prog4.habbitgoals.entity.goal.MainGoal;
+import hu.mik.prog4.habbitgoals.entity.measure.MeasureValue;
 import hu.mik.prog4.habbitgoals.exception.DataAccessException;
 import hu.mik.prog4.habbitgoals.exception.DataNamingException;
+import hu.mik.prog4.habbitgoals.repository.AbstractRepository;
 import hu.mik.prog4.habbitgoals.repository.Repository;
-import hu.mik.prog4.habbitgoals.repository.RepositoryInterface;
 import lombok.extern.log4j.Log4j2;
 
 import javax.naming.NamingException;
@@ -13,15 +13,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Log4j2
-public class MainGoalRepository extends Repository implements RepositoryInterface<MainGoal> {
+public class MeasureValueAbstractRepository extends AbstractRepository implements Repository<MeasureValue> {
 
     @Override
-    public List<MainGoal> listAll() {
+    public List<MeasureValue> listAll() {
         try (Connection con = this.getConnection(); Statement stmt = con.createStatement()) {
-            ResultSet rs = stmt.executeQuery("SELECT main_goal_id, title FROM main_goal");
-            List<MainGoal> list = new ArrayList<>();
+            ResultSet rs = stmt.executeQuery("SELECT id, measure_field_id, value, date FROM measure_value");
+            List<MeasureValue> list = new ArrayList<>();
             while (rs.next()) {
-                list.add(this.mapMainGoal(rs));
+                list.add(this.mapMeasureValue(rs));
             }
             return list;
 
@@ -35,14 +35,14 @@ public class MainGoalRepository extends Repository implements RepositoryInterfac
     }
 
     @Override
-    public MainGoal findById(Long id) {
+    public MeasureValue findById(Long id) {
         try (Connection con = this.getConnection();
-             PreparedStatement stmt = con.prepareStatement("SELECT main_goal_id, title FROM main_goal WHERE main_goal_id = ?")) {
+             PreparedStatement stmt = con.prepareStatement("SELECT id, measure_field_id, value, date FROM measure_value WHERE id = ?")) {
             stmt.setLong(1, id);
             ResultSet rs = stmt.executeQuery();
 
             rs.next();
-            return this.mapMainGoal(rs);
+            return this.mapMeasureValue(rs);
         } catch (NamingException e) {
             log.error("Data naming error: " + e.getMessage(), e);
             throw new DataNamingException();
@@ -53,14 +53,15 @@ public class MainGoalRepository extends Repository implements RepositoryInterfac
     }
 
     @Override
-    public MainGoal add(MainGoal mainGoal) {
+    public MeasureValue create(MeasureValue measureValue) {
         try (Connection con = this.getConnection();
-             PreparedStatement stmt = con.prepareStatement("Insert Into main_goal(title) VALUES (?)")) {
-            stmt.setString(1,mainGoal.getTitle());
+             PreparedStatement stmt = con.prepareStatement("Insert Into measure_value(measure_field_id, value, date) VALUES (?,?,?)")) {
+            stmt.setLong(1,measureValue.getMeasureFieldId());
+            stmt.setDouble(2, measureValue.getValue());
+            stmt.setDate(3, measureValue.getDate());
 
             stmt.executeUpdate();
-
-            return mainGoal;
+            return measureValue;
         } catch (NamingException e) {
             log.error("Data naming error: " + e.getMessage(), e);
             throw new DataNamingException();
@@ -71,14 +72,15 @@ public class MainGoalRepository extends Repository implements RepositoryInterfac
     }
 
     @Override
-    public MainGoal edit(MainGoal mainGoal) {
+    public MeasureValue update(MeasureValue measureValue) {
         try (Connection con = this.getConnection();
-             PreparedStatement stmt = con.prepareStatement("UPDATE main_goal SET title = ? WHERE main_goal_id = ?",Statement.RETURN_GENERATED_KEYS) ) {
-            stmt.setString(1,mainGoal.getTitle());
-            stmt.setLong(2,mainGoal.getId());
+             PreparedStatement stmt = con.prepareStatement("UPDATE measure_value SET value = ?, date = ? WHERE id = ?", Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setDouble(1, measureValue.getValue());
+            stmt.setDate(2, measureValue.getDate());
+            stmt.setLong(3,measureValue.getId());
 
             stmt.executeUpdate();
-            return mainGoal;
+            return measureValue;
         } catch (NamingException e) {
             log.error("Data naming error: " + e.getMessage(), e);
             throw new DataNamingException();
@@ -91,7 +93,7 @@ public class MainGoalRepository extends Repository implements RepositoryInterfac
     @Override
     public boolean deleteById(Long id) {
         try (Connection con = this.getConnection();
-             PreparedStatement stmt = con.prepareStatement("DELETE FROM main_goal WHERE main_goal_id = ?")){
+             PreparedStatement stmt = con.prepareStatement("DELETE FROM measure_value WHERE id = ?")){
             stmt.setLong(1, id);
             int rowsAffected = stmt.executeUpdate();
 
@@ -106,10 +108,12 @@ public class MainGoalRepository extends Repository implements RepositoryInterfac
         }
     }
 
-    private MainGoal mapMainGoal(ResultSet rs) throws SQLException {
-        MainGoal mainGoal = new MainGoal();
-        mainGoal.setId(rs.getLong("main_goal_id"));
-        mainGoal.setTitle(rs.getString("title"));
-        return mainGoal;
+    private MeasureValue mapMeasureValue(ResultSet rs) throws SQLException {
+        MeasureValue measureValue = new MeasureValue();
+        measureValue.setId(rs.getLong("id"));
+        measureValue.setMeasureFieldId(rs.getLong("measure_field_id"));
+        measureValue.setValue(rs.getDouble("value"));
+        measureValue.setDate(rs.getDate("date"));
+        return measureValue;
     }
 }

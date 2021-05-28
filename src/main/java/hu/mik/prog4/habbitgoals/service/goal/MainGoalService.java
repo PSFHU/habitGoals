@@ -1,19 +1,18 @@
 package hu.mik.prog4.habbitgoals.service.goal;
 
 import hu.mik.prog4.habbitgoals.entity.goal.MainGoal;
-import hu.mik.prog4.habbitgoals.entity.goal.SideGoal;
-import hu.mik.prog4.habbitgoals.repository.goal.MainGoalRepository;
-import hu.mik.prog4.habbitgoals.repository.goal.SideGoalRepository;
+import hu.mik.prog4.habbitgoals.repository.goal.MainGoalAbstractRepository;
+import hu.mik.prog4.habbitgoals.service.Service;
 
 import java.util.List;
 
-public class MainGoalService implements GoalService<MainGoal> {
+public class MainGoalService implements GoalService<MainGoal> , Service<MainGoal> {
 
-    private final MainGoalRepository mainGoalRepository;
+    private final MainGoalAbstractRepository mainGoalRepository;
     private final SideGoalService sideGoalService;
 
     public MainGoalService() {
-        mainGoalRepository = new MainGoalRepository();
+        mainGoalRepository = new MainGoalAbstractRepository();
         sideGoalService = new SideGoalService();
     }
 
@@ -28,13 +27,13 @@ public class MainGoalService implements GoalService<MainGoal> {
     }
 
     @Override
-    public MainGoal add(MainGoal goal) {
-        return mainGoalRepository.add(goal);
+    public MainGoal create(MainGoal goal) {
+        return mainGoalRepository.create(goal);
     }
 
     @Override
-    public MainGoal edit(MainGoal goal) {
-        return mainGoalRepository.edit(goal);
+    public MainGoal update(MainGoal goal) {
+        return mainGoalRepository.update(goal);
     }
 
     @Override

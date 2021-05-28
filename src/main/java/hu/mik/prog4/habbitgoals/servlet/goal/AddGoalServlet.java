@@ -7,6 +7,7 @@ import hu.mik.prog4.habbitgoals.exception.GoalTypeException;
 import hu.mik.prog4.habbitgoals.service.goal.MainGoalService;
 import hu.mik.prog4.habbitgoals.service.goal.SideGoalService;
 import hu.mik.prog4.habbitgoals.service.measure.MeasureFieldService;
+import hu.mik.prog4.habbitgoals.servlet.FinalValues;
 import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.ServletException;
@@ -21,8 +22,6 @@ import java.util.List;
 @Log4j2
 public class AddGoalServlet extends HttpServlet {
 
-    private static final String MAINGOAL = "MainGoal";
-    private static final String SIDEGOAL = "SideGoal";
     private MainGoalService mainGoalService;
     private SideGoalService sideGoalService;
     private MeasureFieldService measureFieldService;
@@ -52,14 +51,14 @@ public class AddGoalServlet extends HttpServlet {
         String goalType = req.getParameter("goalType");
         String title = req.getParameter("title");
 
-        if (MAINGOAL.equals(goalType)) {
+        if (FinalValues.MAINGOAL.equals(goalType)) {
             MainGoal mainGoal = new MainGoal();
             mainGoal.setTitle(title);
 
             log.info("Adding main-goal: " + mainGoal);
             req.setAttribute("goal", mainGoal);
-            this.mainGoalService.add(mainGoal);
-        } else if (SIDEGOAL.equals(goalType)) {
+            this.mainGoalService.create(mainGoal);
+        } else if (FinalValues.SIDEGOAL.equals(goalType)) {
             Long mainGoalId = Long.valueOf(req.getParameter("mainGoalId"));
             Long measureFieldId = Long.valueOf(req.getParameter("measureFieldId"));
             Double goalValue = Double.valueOf(req.getParameter("goalValue"));
@@ -72,7 +71,7 @@ public class AddGoalServlet extends HttpServlet {
 
             log.info("Adding side-goal: " + sideGoal);
             req.setAttribute("goal", sideGoal);
-            this.sideGoalService.add(sideGoal);
+            this.sideGoalService.create(sideGoal);
         } else {
             log.error("Invalid Goal Type while trying to save Goal!");
             throw new GoalTypeException("Invalid Goal Type!");

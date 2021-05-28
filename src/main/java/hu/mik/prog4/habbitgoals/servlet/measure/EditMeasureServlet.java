@@ -6,6 +6,7 @@ import hu.mik.prog4.habbitgoals.entity.measure.MeasureValue;
 import hu.mik.prog4.habbitgoals.exception.MeasureTypeException;
 import hu.mik.prog4.habbitgoals.service.measure.MeasureFieldService;
 import hu.mik.prog4.habbitgoals.service.measure.MeasureValueService;
+import hu.mik.prog4.habbitgoals.servlet.FinalValues;
 import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.ServletException;
@@ -20,8 +21,6 @@ import java.util.List;
 @Log4j2
 public class EditMeasureServlet extends HttpServlet {
 
-    private static final String FIELD = "MeasureField";
-    private static final String VALUE = "MeasureValue";
     private MeasureFieldService measureFieldService;
     private MeasureValueService measureValueService;
 
@@ -40,9 +39,9 @@ public class EditMeasureServlet extends HttpServlet {
         Long id = Long.valueOf(req.getParameter("id"));
         String type = req.getParameter("type");
         Measure byId;
-        if (FIELD.equals(type)) {
+        if (FinalValues.FIELD.equals(type)) {
             byId = measureFieldService.findById(id);
-        }else if (VALUE.equals(type)) {
+        }else if (FinalValues.VALUE.equals(type)) {
             byId = measureValueService.findById(id);
         }else {
             log.error("Invalid Measure Type while trying to delete Goal!");
@@ -57,7 +56,7 @@ public class EditMeasureServlet extends HttpServlet {
         String measureType = req.getParameter("measureType");
         Long id = Long.valueOf(req.getParameter("id"));
 
-        if (FIELD.equals(measureType)) {
+        if (FinalValues.FIELD.equals(measureType)) {
             String title = req.getParameter("title");
             MeasureField measureField = new MeasureField();
             measureField.setId(id);
@@ -65,8 +64,8 @@ public class EditMeasureServlet extends HttpServlet {
 
             log.info("Editing measure-field: " + measureField);
             req.setAttribute("measure", measureField);
-            this.measureFieldService.edit(measureField);
-        } else if (VALUE.equals(measureType)) {
+            this.measureFieldService.update(measureField);
+        } else if (FinalValues.VALUE.equals(measureType)) {
             Long measureFieldId = Long.valueOf(req.getParameter("measureFieldId"));
             Double value = Double.valueOf(req.getParameter("measureValue"));
             Date timeStamp = Date.valueOf(req.getParameter("Date"));
@@ -75,11 +74,11 @@ public class EditMeasureServlet extends HttpServlet {
             measureValue.setId(id);
             measureValue.setValue(value);
             measureValue.setMeasureFieldId(measureFieldId);
-            measureValue.setTimeStamp(timeStamp);
+            measureValue.setDate(timeStamp);
 
             log.info("Editing measure-value: " + measureValue);
             req.setAttribute("measure", measureValue);
-            this.measureValueService.edit(measureValue);
+            this.measureValueService.update(measureValue);
         } else {
             log.error("Invalid Measure Type while trying to save Goal!");
             throw new MeasureTypeException("Invalid Measure Type!");

@@ -8,4 +8,5 @@ import lombok.NoArgsConstructor;
 public abstract class Goal {
     private Long id;
     private String title;
+    private Boolean isCompleted;
 }

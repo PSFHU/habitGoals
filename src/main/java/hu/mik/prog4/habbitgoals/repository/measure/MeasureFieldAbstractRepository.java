@@ -1,10 +1,10 @@
-package hu.mik.prog4.habbitgoals.repository.goal;
+package hu.mik.prog4.habbitgoals.repository.measure;
 
-import hu.mik.prog4.habbitgoals.entity.goal.SideGoal;
+import hu.mik.prog4.habbitgoals.entity.measure.MeasureField;
 import hu.mik.prog4.habbitgoals.exception.DataAccessException;
 import hu.mik.prog4.habbitgoals.exception.DataNamingException;
+import hu.mik.prog4.habbitgoals.repository.AbstractRepository;
 import hu.mik.prog4.habbitgoals.repository.Repository;
-import hu.mik.prog4.habbitgoals.repository.RepositoryInterface;
 import lombok.extern.log4j.Log4j2;
 
 import javax.naming.NamingException;
@@ -13,15 +13,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Log4j2
-public class SideGoalRepository extends Repository implements RepositoryInterface<SideGoal> {
+public class MeasureFieldAbstractRepository extends AbstractRepository implements Repository<MeasureField> {
 
     @Override
-    public List<SideGoal> listAll() {
+    public List<MeasureField> listAll() {
         try (Connection con = this.getConnection(); Statement stmt = con.createStatement()) {
-            ResultSet rs = stmt.executeQuery("SELECT id, main_goal_id, measure_field_id, title, goal_value FROM side_goal");
-            List<SideGoal> list = new ArrayList<>();
+            ResultSet rs = stmt.executeQuery("SELECT measure_field_id, title FROM measure_field");
+            List<MeasureField> list = new ArrayList<>();
             while (rs.next()) {
-                list.add(this.mapSideGoal(rs));
+                list.add(this.mapMeasureField(rs));
             }
             return list;
 
@@ -35,14 +35,14 @@ public class SideGoalRepository extends Repository implements RepositoryInterfac
     }
 
     @Override
-    public SideGoal findById(Long id) {
+    public MeasureField findById(Long id) {
         try (Connection con = this.getConnection();
-             PreparedStatement stmt = con.prepareStatement("SELECT id, main_goal_id, measure_field_id, title, goal_value FROM side_goal WHERE id = ?")) {
+             PreparedStatement stmt = con.prepareStatement("SELECT measure_field_id,title FROM measure_field WHERE measure_field_id = ?")) {
             stmt.setLong(1, id);
             ResultSet rs = stmt.executeQuery();
 
             rs.next();
-            return this.mapSideGoal(rs);
+            return this.mapMeasureField(rs);
         } catch (NamingException e) {
             log.error("Data naming error: " + e.getMessage(), e);
             throw new DataNamingException();
@@ -53,16 +53,13 @@ public class SideGoalRepository extends Repository implements RepositoryInterfac
     }
 
     @Override
-    public SideGoal add(SideGoal sideGoal) {
+    public MeasureField create(MeasureField measureField) {
         try (Connection con = this.getConnection();
-             PreparedStatement stmt = con.prepareStatement("Insert Into side_goal(main_goal_id, measure_field_id, title, goal_value) VALUES (?,?,?,?)")) {
-            stmt.setLong(1,sideGoal.getMainGoalId());
-            stmt.setLong(2,sideGoal.getMeasureFieldId());
-            stmt.setString(3,sideGoal.getTitle());
-            stmt.setDouble(4,sideGoal.getGoalValue());
+             PreparedStatement stmt = con.prepareStatement("Insert Into measure_field(title) VALUES (?)")) {
+            stmt.setString(1,measureField.getTitle());
 
             stmt.executeUpdate();
-            return sideGoal;
+            return measureField;
         } catch (NamingException e) {
             log.error("Data naming error: " + e.getMessage(), e);
             throw new DataNamingException();
@@ -73,17 +70,13 @@ public class SideGoalRepository extends Repository implements RepositoryInterfac
     }
 
     @Override
-    public SideGoal edit(SideGoal sideGoal) {
+    public MeasureField update(MeasureField measureField) {
         try (Connection con = this.getConnection();
-             PreparedStatement stmt = con.prepareStatement("UPDATE side_goal SET main_goal_id = ?, measure_field_id = ?, title = ?, goal_value = ? WHERE id = ?",Statement.RETURN_GENERATED_KEYS) ) {
-            stmt.setLong(1,sideGoal.getMainGoalId());
-            stmt.setLong(2,sideGoal.getMeasureFieldId());
-            stmt.setString(3,sideGoal.getTitle());
-            stmt.setDouble(4,sideGoal.getGoalValue());
-            stmt.setLong(5,sideGoal.getId());
+             PreparedStatement stmt = con.prepareStatement("UPDATE measure_field SET title = ? WHERE measure_field_id = ?", Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setString(1,measureField.getTitle());
 
             stmt.executeUpdate();
-            return sideGoal;
+            return measureField;
         } catch (NamingException e) {
             log.error("Data naming error: " + e.getMessage(), e);
             throw new DataNamingException();
@@ -96,7 +89,7 @@ public class SideGoalRepository extends Repository implements RepositoryInterfac
     @Override
     public boolean deleteById(Long id) {
         try (Connection con = this.getConnection();
-             PreparedStatement stmt = con.prepareStatement("DELETE FROM side_goal WHERE id = ?")){
+             PreparedStatement stmt = con.prepareStatement("DELETE FROM measure_field WHERE measure_field_id = ?")){
             stmt.setLong(1, id);
             int rowsAffected = stmt.executeUpdate();
 
@@ -111,13 +104,10 @@ public class SideGoalRepository extends Repository implements RepositoryInterfac
         }
     }
 
-    private SideGoal mapSideGoal(ResultSet rs) throws SQLException {
-        SideGoal sideGoal = new SideGoal();
-        sideGoal.setId(rs.getLong("id"));
-        sideGoal.setMainGoalId(rs.getLong("main_goal_id"));
-        sideGoal.setMeasureFieldId(rs.getLong("measure_field_id"));
-        sideGoal.setTitle(rs.getString("title"));
-        sideGoal.setGoalValue(rs.getDouble("goal_value"));
-        return sideGoal;
+    private MeasureField mapMeasureField(ResultSet rs) throws SQLException {
+        MeasureField measureField = new MeasureField();
+        measureField.setId(rs.getLong("measure_field_id"));
+        measureField.setTitle(rs.getString("title"));
+        return measureField;
     }
 }

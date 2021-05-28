@@ -11,5 +11,5 @@ import java.sql.Date;
 public class MeasureValue extends Measure{
     private Long measureFieldId;
     private double value;
-    private Date timeStamp;
+    private Date date;
 }

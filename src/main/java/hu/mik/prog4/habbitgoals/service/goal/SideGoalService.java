@@ -1,22 +1,22 @@
 package hu.mik.prog4.habbitgoals.service.goal;
 
+import hu.mik.prog4.habbitgoals.entity.goal.MainGoal;
 import hu.mik.prog4.habbitgoals.entity.goal.SideGoal;
 import hu.mik.prog4.habbitgoals.entity.measure.MeasureValue;
-import hu.mik.prog4.habbitgoals.repository.goal.SideGoalRepository;
-import hu.mik.prog4.habbitgoals.repository.measure.MeasureValueRepository;
+import hu.mik.prog4.habbitgoals.repository.goal.SideGoalAbstractRepository;
+import hu.mik.prog4.habbitgoals.service.Service;
 import hu.mik.prog4.habbitgoals.service.measure.MeasureValueService;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class SideGoalService implements GoalService<SideGoal>{
+public class SideGoalService implements GoalService<SideGoal>, Service<SideGoal> {
 
-    private final SideGoalRepository sideGoalRepository;
+    private final SideGoalAbstractRepository sideGoalRepository;
     private final MeasureValueService measureValueService;
 
     public SideGoalService() {
-        this.sideGoalRepository = new SideGoalRepository();
+        this.sideGoalRepository = new SideGoalAbstractRepository();
         measureValueService = new MeasureValueService();
     }
 
@@ -31,13 +31,13 @@ public class SideGoalService implements GoalService<SideGoal>{
     }
 
     @Override
-    public SideGoal add(SideGoal goal) {
-        return sideGoalRepository.add(goal);
+    public SideGoal create(SideGoal goal) {
+        return sideGoalRepository.create(goal);
     }
 
     @Override
-    public SideGoal edit(SideGoal goal) {
-        return sideGoalRepository.edit(goal);
+    public SideGoal update(SideGoal goal) {
+        return sideGoalRepository.update(goal);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class SideGoalService implements GoalService<SideGoal>{
                 .collect(Collectors.toList()).stream()
                 .map(MeasureValue::getValue)
                 .max(Double::compareTo)
-                .filter(aDouble -> aDouble <= byId.getGoalValue())
+                .filter(aDouble -> aDouble >= byId.getGoalValue())
                 .isPresent();
     }
 }

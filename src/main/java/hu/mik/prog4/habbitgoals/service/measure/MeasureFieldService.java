@@ -1,16 +1,17 @@
 package hu.mik.prog4.habbitgoals.service.measure;
 
 import hu.mik.prog4.habbitgoals.entity.measure.MeasureField;
-import hu.mik.prog4.habbitgoals.repository.measure.MeasureFieldRepository;
+import hu.mik.prog4.habbitgoals.repository.measure.MeasureFieldAbstractRepository;
+import hu.mik.prog4.habbitgoals.service.Service;
 
 import java.util.List;
 
-public class MeasureFieldService implements MeasureService<MeasureField> {
+public class MeasureFieldService implements Service<MeasureField> {
 
-    private final MeasureFieldRepository measureFieldRepository;
+    private final MeasureFieldAbstractRepository measureFieldRepository;
 
     public MeasureFieldService() {
-        measureFieldRepository = new MeasureFieldRepository();
+        measureFieldRepository = new MeasureFieldAbstractRepository();
     }
 
     @Override
@@ -24,13 +25,13 @@ public class MeasureFieldService implements MeasureService<MeasureField> {
     }
 
     @Override
-    public MeasureField add(MeasureField measure) {
-        return measureFieldRepository.add(measure);
+    public MeasureField create(MeasureField measure) {
+        return measureFieldRepository.create(measure);
     }
 
     @Override
-    public MeasureField edit(MeasureField measure) {
-        return measureFieldRepository.edit(measure);
+    public MeasureField update(MeasureField measure) {
+        return measureFieldRepository.update(measure);
     }
 
     @Override

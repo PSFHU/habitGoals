@@ -20,25 +20,25 @@ insert into side_goal (main_goal_id, measure_field_id, title, goal_value)
 values (20,3,'Microshot 70000 point',70000);
 
 -- Forth we give in some measure_values
-insert into measure_value(measure_field_id, value, time_stamp)
+insert into measure_value(measure_field_id, value, date)
 values (1,50000,'2021-03-10');
-insert into measure_value(measure_field_id, value, time_stamp)
+insert into measure_value(measure_field_id, value, date)
 values (1,52000,'2021-03-11');
-insert into measure_value(measure_field_id, value, time_stamp)
+insert into measure_value(measure_field_id, value, date)
 values (1,54000,'2021-03-12');
-insert into measure_value(measure_field_id, value, time_stamp)
+insert into measure_value(measure_field_id, value, date)
 values (1,51000,'2021-03-13');
-insert into measure_value(measure_field_id, value, time_stamp)
+insert into measure_value(measure_field_id, value, date)
 values (2,40021,'2021-03-10');
-insert into measure_value(measure_field_id, value, time_stamp)
+insert into measure_value(measure_field_id, value, date)
 values (2,44021,'2021-03-11');
-insert into measure_value(measure_field_id, value, time_stamp)
+insert into measure_value(measure_field_id, value, date)
 values (2,42021,'2021-03-12');
-insert into measure_value(measure_field_id, value, time_stamp)
+insert into measure_value(measure_field_id, value, date)
 values (2,45021,'2021-03-13');
-insert into measure_value(measure_field_id, value, time_stamp)
+insert into measure_value(measure_field_id, value, date)
 values (3,60021,'2021-03-12');
-insert into measure_value(measure_field_id, value, time_stamp)
+insert into measure_value(measure_field_id, value, date)
 values (3,71498,'2021-03-13');
 
 -- Workout goals
@@ -67,31 +67,31 @@ insert into side_goal (main_goal_id, measure_field_id, title, goal_value)
 values (21,7,'Do 10km Running',10);
 
 -- Forth we give in some measure_values
-insert into measure_value(measure_field_id, value, time_stamp)
+insert into measure_value(measure_field_id, value, date)
 values (4,10,'2021-03-10');
-insert into measure_value(measure_field_id, value, time_stamp)
+insert into measure_value(measure_field_id, value, date)
 values (4,15,'2021-03-11');
-insert into measure_value(measure_field_id, value, time_stamp)
+insert into measure_value(measure_field_id, value, date)
 values (4,15,'2021-03-12');
-insert into measure_value(measure_field_id, value, time_stamp)
+insert into measure_value(measure_field_id, value, date)
 values (4,20,'2021-03-13');
-insert into measure_value(measure_field_id, value, time_stamp)
+insert into measure_value(measure_field_id, value, date)
 values (5,20,'2021-03-10');
-insert into measure_value(measure_field_id, value, time_stamp)
+insert into measure_value(measure_field_id, value, date)
 values (5,25,'2021-03-11');
-insert into measure_value(measure_field_id, value, time_stamp)
+insert into measure_value(measure_field_id, value, date)
 values (5,25,'2021-03-12');
-insert into measure_value(measure_field_id, value, time_stamp)
+insert into measure_value(measure_field_id, value, date)
 values (5,35,'2021-03-13');
-insert into measure_value(measure_field_id, value, time_stamp)
+insert into measure_value(measure_field_id, value, date)
 values (6,20,'2021-03-10');
-insert into measure_value(measure_field_id, value, time_stamp)
+insert into measure_value(measure_field_id, value, date)
 values (6,30,'2021-03-11');
-insert into measure_value(measure_field_id, value, time_stamp)
+insert into measure_value(measure_field_id, value, date)
 values (6,40,'2021-03-12');
-insert into measure_value(measure_field_id, value, time_stamp)
+insert into measure_value(measure_field_id, value, date)
 values (7,1,'2021-03-10');
-insert into measure_value(measure_field_id, value, time_stamp)
+insert into measure_value(measure_field_id, value, date)
 values (7,2,'2021-03-12');
-insert into measure_value(measure_field_id, value, time_stamp)
+insert into measure_value(measure_field_id, value, date)
 values (7,2,'2021-03-13');

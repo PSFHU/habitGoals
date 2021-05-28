@@ -27,7 +27,7 @@ CREATE TABLE measure_value(
     id                  serial PRIMARY KEY,
     measure_field_id    serial NOT NULL,
     value               double precision,
-    time_stamp          date,
+    date                date,
     CONSTRAINT fk_measure_field
         FOREIGN KEY(measure_field_id)
             REFERENCES measure_field(measure_field_id)

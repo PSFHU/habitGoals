@@ -3,6 +3,7 @@ package hu.mik.prog4.habbitgoals.servlet.measure;
 import hu.mik.prog4.habbitgoals.exception.MeasureTypeException;
 import hu.mik.prog4.habbitgoals.service.measure.MeasureFieldService;
 import hu.mik.prog4.habbitgoals.service.measure.MeasureValueService;
+import hu.mik.prog4.habbitgoals.servlet.FinalValues;
 import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.ServletException;
@@ -13,8 +14,6 @@ import java.io.IOException;
 
 @Log4j2
 public class DeleteMeasureServlet extends HttpServlet {
-    private static final String FIELD = "MeasureField";
-    private static final String VALUE = "MeasureValue";
     private MeasureFieldService measureFieldService;
     private MeasureValueService measureValueService;
 
@@ -29,9 +28,9 @@ public class DeleteMeasureServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Long id = Long.valueOf(req.getParameter("id"));
-        if(FIELD.equals(req.getParameter("type"))){
+        if(FinalValues.FIELD.equals(req.getParameter("type"))){
             measureFieldService.deleteById(id);
-        }else if (VALUE.equals(req.getParameter("type"))) {
+        }else if (FinalValues.VALUE.equals(req.getParameter("type"))) {
             measureValueService.deleteById(id);
         }else {
             log.error("Invalid Measure Type while trying to delete Goal!");

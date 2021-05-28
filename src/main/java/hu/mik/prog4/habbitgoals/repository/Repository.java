@@ -7,7 +7,7 @@ public interface Repository<T> {
 
     T findById(Long id);
 
-    T add(T goal);
+    T create(T goal);
 
     T update(T goal);
 
